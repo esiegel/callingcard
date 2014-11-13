@@ -27,4 +27,5 @@ setup(name='callme',
               'development = callme.development:main',
           ]
       },
+      include_package_data=True,
       )

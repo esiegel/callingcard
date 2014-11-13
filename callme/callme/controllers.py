@@ -1,37 +1,37 @@
-from callme.util import get_twiml_params, produces_xml
+from callme.util import get_twiml_params, get_digits_entered
+from flask import render_template
 
 
 def create_routes(app):
 
+    speeddial = app.config.get('SPEEDDIAL')
+
     @app.route("/")
     def index():
-        return "<h1>CallMe International</h1>"
+        return render_template('index.html')
 
     @app.route("/connect", methods=["GET", "POST"])
-    @produces_xml
     @get_twiml_params
     def connect(twiml_params):
-        return """<?xml version="1.0" encoding="UTF-8"?>
-                  <Response>
-                     <Gather action="/dial" timeout="30" numDigits="1">
-                        <Say voice="woman" language="en">
-                           Type the extension.
-                        </Say>
-                     </Gather>
-                     <Say>We didn't receive the extension to dial</Say>
-                  </Response>"""
+        return render_template('connect.xml', speeddial=speeddial, timeout=15)
 
-    @app.route("/dial", methods=["GET", "POST"])
-    @produces_xml
+    @app.route("/switchboard", methods=["GET", "POST"])
     @get_twiml_params
-    def dial(twiml_params):
+    @get_digits_entered
+    def dial(twiml_params, ext):
+        if ext == 0:
+            return render_template('freedial.xml', timeout=30)
 
-        index = int(twiml_params.get('Digits', '0'))
-        number = app.config.get('NUMBERS')[index]
+        person = speeddial.get(ext, {})
 
-        return """<?xml version="1.0" encoding="UTF-8"?>
-                  <Response>
-                     <Dial>
-                        <Number>{}</Number>
-                     </Dial>
-                  </Response>""".format(number)
+        if not person:
+            return render_template('invalid_extension.xml', ext=ext)
+
+        return render_template('dial.xml', person=person)
+
+    @app.route("/freedial", methods=["GET", "POST"])
+    @get_twiml_params
+    @get_digits_entered
+    def freedial(twiml_params, number):
+        person = {"name": "unknown", "number": number}
+        return render_template('dial.xml', person=person)

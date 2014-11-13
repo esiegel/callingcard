@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Response>
+   <Say voice="woman" language="en">
+      Calling {{ person["name"] }}
+   </Say>
+   <Dial timeout="10" record="true">{{ person["number"] }}</Dial>
+</Response>

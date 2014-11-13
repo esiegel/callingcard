@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Response>
+   <Gather action="/freedial" timeout="{{ timeout }}" numDigits="10">
+      <Say voice="woman" language="en">
+         Enter a U.S. number, area code first.
+      </Say>
+   </Gather>
+   <Say>We didn't receive the number to dial</Say>
+   <Reject reason="rejected"/>
+</Response>

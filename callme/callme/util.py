@@ -1,4 +1,4 @@
-from flask import request, Response
+from flask import request, Response, render_template
 from textwrap import dedent
 from functools import wraps
 
@@ -16,6 +16,24 @@ def get_twiml_params(f):
             twiml_params = {}
 
         return f(twiml_params, *args, **kwargs)
+
+    return decorated
+
+
+def get_digits_entered(f):
+    """gets the digits entered from the twiml_params"""
+
+    @wraps(f)
+    def decorated(twiml_params, *args, **kwargs):
+        if "Digits" not in twiml_params:
+            return render_template('invalid.xml')
+
+        try:
+            digits = int(twiml_params.get('Digits'))
+        except ValueError:
+            return render_template('invalid.xml')
+
+        return f(twiml_params, digits, *args, **kwargs)
 
     return decorated
 

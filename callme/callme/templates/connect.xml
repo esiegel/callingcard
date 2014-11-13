@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Response>
+   <Gather action="/switchboard" timeout="{{ timeout }}" finishOnKey="#">
+      <Say voice="woman" language="en">
+         Please enter 0 to dial a number, or enter the extension you wish to reach.
+         Press the pound key to finish.
+         {% for ext, person in speeddial.items() -%}
+             {{ person["name"] }}, {{ ext }}
+         {% endfor -%}
+      </Say>
+   </Gather>
+   <Say>We didn't receive the extension to dial</Say>
+   <Reject reason="rejected"/>
+</Response>

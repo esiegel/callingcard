@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Response>
+   <Say>You are not permitted to call.</Say>
+   <Reject reason="rejected"/>
+</Response>

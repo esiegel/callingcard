@@ -1,4 +1,4 @@
-from flask import request, Response, render_template
+from flask import current_app, request, Response, render_template
 from textwrap import dedent
 from functools import wraps
 
@@ -13,6 +13,26 @@ def get_twiml_params(f):
             "POST": request.form
         }
         twiml_params = param_dict.get(request.method, {})
+
+        return f(twiml_params, *args, **kwargs)
+
+    return decorated
+
+
+def verify_caller_allowed(f):
+    """verifies that caller is a permitted number"""
+
+    @wraps(f)
+    def decorated(twiml_params, *args, **kwargs):
+        print twiml_params
+        if "From" not in twiml_params:
+            return render_template('invalid.xml')
+
+        caller = twiml_params.get('From')
+        permited_callers = current_app.config.get('PERMITTED_CALLERS')
+
+        if caller not in permited_callers:
+            return render_template('caller_not_permitted.xml')
 
         return f(twiml_params, *args, **kwargs)
 

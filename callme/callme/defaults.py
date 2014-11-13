@@ -10,6 +10,12 @@ SPEEDDIAL = {
         "number": "+15555555553"},
 }
 
+# Number which can call the forwarder.
+PERMITTED_CALLERS = [
+    "+525555555551",
+    "+525555555552",
+]
+
 # Fully read every request to ensure the nginx and uwsgi play nice
 FORCE_READ_REQUESTS = True
 

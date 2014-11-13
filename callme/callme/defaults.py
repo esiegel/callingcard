@@ -28,15 +28,14 @@ LOGGING = {
         }
     },
     "handlers": {
-        "file_handler": {
-            "class": "logging.handlers.WatchedFileHandler",
+        "streamhandler": {
+            "class": "logging.StreamHandler",
             "formatter": "simple",
-            "filename": "/var/log/callme/callme.log",
             "filters": ["add_hostname"]
         },
     },
     "root": {
         "level": "INFO",
-        "handlers": ["file_handler"]
+        "handlers": ["streamhandler"]
     },
 }

@@ -1,7 +1,7 @@
-from callme.util import (get_twiml_params,
-                         get_digits_entered,
-                         produces_xml,
-                         verify_caller_allowed)
+from callingcard.util import (get_twiml_params,
+                              get_digits_entered,
+                              produces_xml,
+                              verify_caller_allowed)
 from flask import render_template
 
 

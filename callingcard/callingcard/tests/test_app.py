@@ -1,6 +1,6 @@
 from nose.tools import ok_
 
-from callme.app import create_app
+from callingcard.app import create_app
 
 
 class TestExample(object):

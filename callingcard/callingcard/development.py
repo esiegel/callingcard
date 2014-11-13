@@ -6,7 +6,7 @@ to the application to be automatically reloaded.
 """
 from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter
 
-from callme.app import create_app
+from callingcard.app import create_app
 
 
 def main():

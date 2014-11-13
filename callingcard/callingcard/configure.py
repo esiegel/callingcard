@@ -3,8 +3,8 @@ from logging.config import dictConfig
 
 from flask import request
 
-from callme import defaults
-from callme.controllers import create_routes
+from callingcard import defaults
+from callingcard.controllers import create_routes
 
 
 def configure_app(app, debug=False, testing=False):
@@ -44,11 +44,11 @@ def _configure_from_defaults(app):
 def _configure_from_environment(app):
     """
     Load configuration from a file specified as the value of
-    the CALLME_SETTINGS environment variable.
+    the CALLINGCARD_SETTINGS environment variable.
 
     Don't complain if the variable is unset.
     """
-    app.config.from_envvar("CALLME_SETTINGS", silent=True)
+    app.config.from_envvar("CALLINGCARD_SETTINGS", silent=True)
 
 
 def _configure_stream_reading(app):
@@ -73,7 +73,7 @@ def _configure_logging(app):
         basicConfig(level=DEBUG)
     else:
         dictConfig(app.config.get("LOGGING"))
-        configured_logger = getLogger("callme")
+        configured_logger = getLogger("callingcard")
 
         # ensure that Flask's logger uses configured handlers
         for handler in configured_logger.handlers:

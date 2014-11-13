@@ -6,7 +6,7 @@ __version__ = '1.0'
 
 __build__ = ''
 
-setup(name='callme',
+setup(name='callingcard',
       version=__version__ + __build__,
       description='twilio voice call forwarding',
       author='Eric Siegel',
@@ -21,10 +21,10 @@ setup(name='callme',
       ],
       tests_require=[
       ],
-      test_suite='callme.tests',
+      test_suite='callingcard.tests',
       entry_points={
           'console_scripts': [
-              'development = callme.development:main',
+              'development = callingcard.development:main',
           ]
       },
       include_package_data=True,

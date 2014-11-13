@@ -1,5 +1,5 @@
 from flask import Flask
-from callme.configure import configure_app
+from callingcard.configure import configure_app
 
 
 def create_app(debug=False, testing=False):

@@ -30,7 +30,7 @@ LOGGING = {
     },
     "filters": {
         "add_hostname": {
-            "()": "callme.log.HostnameAddingFilter"
+            "()": "callingcard.log.HostnameAddingFilter"
         }
     },
     "handlers": {

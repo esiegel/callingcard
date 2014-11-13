@@ -5,7 +5,7 @@
          Please enter 0 to dial a number, or enter the extension you wish to reach.
          Press the pound key to finish.
          {% for ext, person in speeddial.items() -%}
-             {{ person["name"] }}, {{ ext }}
+             {{ person["name"] }}, {{ ext }}.
          {% endfor -%}
       </Say>
    </Gather>

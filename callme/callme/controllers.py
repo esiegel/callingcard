@@ -1,4 +1,4 @@
-from callme.util import get_twiml_params, get_digits_entered
+from callme.util import get_twiml_params, get_digits_entered, produces_xml
 from flask import render_template
 
 
@@ -11,14 +11,16 @@ def create_routes(app):
         return render_template('index.html')
 
     @app.route("/connect", methods=["GET", "POST"])
+    @produces_xml
     @get_twiml_params
     def connect(twiml_params):
         return render_template('connect.xml', speeddial=speeddial, timeout=15)
 
     @app.route("/switchboard", methods=["GET", "POST"])
+    @produces_xml
     @get_twiml_params
     @get_digits_entered
-    def dial(twiml_params, ext):
+    def switchboard(twiml_params, ext):
         if ext == 0:
             return render_template('freedial.xml', timeout=30)
 
@@ -30,6 +32,7 @@ def create_routes(app):
         return render_template('dial.xml', person=person)
 
     @app.route("/freedial", methods=["GET", "POST"])
+    @produces_xml
     @get_twiml_params
     @get_digits_entered
     def freedial(twiml_params, number):

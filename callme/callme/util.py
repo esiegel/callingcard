@@ -8,12 +8,11 @@ def get_twiml_params(f):
 
     @wraps(f)
     def decorated(*args, **kwargs):
-        if request.method == "GET":
-            twiml_params = request.args
-        elif request.method == "POST":
-            twiml_params = request.json if isinstance(request.json, dict) else {}
-        else:
-            twiml_params = {}
+        param_dict = {
+            "GET": request.args,
+            "POST": request.form
+        }
+        twiml_params = param_dict.get(request.method, {})
 
         return f(twiml_params, *args, **kwargs)
 

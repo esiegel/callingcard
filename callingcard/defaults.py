@@ -2,12 +2,9 @@
 # Dictionary from extension to person.
 # ZERO is a reserved extension for dialing any number
 SPEEDDIAL = {
-    1: {"name": "Alice",
-        "number": "+15555555551"},
-    2: {"name": "Bob",
-        "number": "+15555555552"},
-    3: {"name": "Chris",
-        "number": "+15555555553"},
+    1: {"name": "Alice", "number": "+15555555551"},
+    2: {"name": "Bob",   "number": "+15555555552"},
+    3: {"name": "Chris", "number": "+15555555553"},
 }
 
 # Number which can call the forwarder.

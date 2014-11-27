@@ -18,7 +18,7 @@ def create_routes(app):
     @get_twiml_params
     @verify_caller_allowed
     def connect(twiml_params):
-        return render_template('connect.xml', speeddial=speeddial, timeout=15)
+        return render_template('connect.xml', speeddial=speeddial, timeout=60)
 
     @app.route("/switchboard", methods=["GET", "POST"])
     @produces_xml
@@ -34,7 +34,7 @@ def create_routes(app):
         if not person:
             return render_template('invalid_extension.xml', ext=ext)
 
-        return render_template('dial.xml', person=person)
+        return render_template('dial.xml', person=person, timeout=60)
 
     @app.route("/freedial", methods=["GET", "POST"])
     @produces_xml
@@ -43,4 +43,4 @@ def create_routes(app):
     @get_digits_entered
     def freedial(twiml_params, number):
         person = {"name": "unknown", "number": number}
-        return render_template('dial.xml', person=person)
+        return render_template('dial.xml', person=person, timeout=60)

@@ -3,5 +3,5 @@
    <Say voice="woman" language="en">
       Calling {{ person["name"] }}
    </Say>
-   <Dial timeout="30" record="false">{{ person["number"] }}</Dial>
+   <Dial timeout="{{ timeout }}" record="false">{{ person["number"] }}</Dial>
 </Response>

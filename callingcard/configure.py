@@ -1,5 +1,7 @@
 from logging import basicConfig, getLogger, DEBUG
 from logging.config import dictConfig
+from json import loads
+from os import environ 
 
 from flask import request
 
@@ -24,6 +26,7 @@ def configure_app(app, debug=False, testing=False):
     app.testing = testing
 
     _configure_from_defaults(app)
+    _configure_from_environment_file(app)
     _configure_from_environment(app)
     _configure_stream_reading(app)
     _configure_logging(app)
@@ -41,7 +44,7 @@ def _configure_from_defaults(app):
     app.config.from_object(defaults)
 
 
-def _configure_from_environment(app):
+def _configure_from_environment_file(app):
     """
     Load configuration from a file specified as the value of
     the CALLINGCARD_SETTINGS environment variable.
@@ -49,6 +52,37 @@ def _configure_from_environment(app):
     Don't complain if the variable is unset.
     """
     app.config.from_envvar("CALLINGCARD_SETTINGS", silent=True)
+
+
+def _configure_from_environment(app):
+    """
+    Load configuration from environment variables.
+    Tries to convert values based on the type specified
+    in the default values.  For non simple types it is
+    assumed that JSON was used for serialization.
+
+    This is useful for deployments that only allow changing config
+    via environment variables, and disallow uploading configuration
+    that is not bundled with source, ie Heroku.
+    """
+    names = [name for name in dir(defaults)
+             if name in environ and not name.startswith('__')]
+
+    for name in names:
+        _type = type(defaults.__dict__[name])
+        raw_value = environ[name]
+
+        if _type in [str, int, float]:
+            # simple type
+            value = _type(raw_value)
+        else:
+            # complex type
+            value = loads(raw_value)
+            if type(value) != _type:
+                raise ValueError("Configuration type mismatch {}: {} != {}"
+                                 .format(name, type(value).__name__, _type.__name__))
+
+        app.config.__setattr__(name, value)
 
 
 def _configure_stream_reading(app):
